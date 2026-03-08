@@ -9,6 +9,7 @@ This document defines the step-by-step process for implementing each tutorial st
 1. **Copy from picklebot first** - Use battle-tested code as the foundation
 2. **Trim future code** - Remove pieces needed only in later steps
 3. **Keep it working** - Every step must be runnable
+4. **Shared workspace** - Config and workspace files in `default_workspace/` are shared across all steps
 
 ---
 
@@ -129,6 +130,7 @@ This document defines the step-by-step process for implementing each tutorial st
 - [ ] Read PLAN.md step description
 - [ ] List all files needed
 - [ ] Map files to picklebot sources
+- [ ] Note: `default_workspace/` config files are shared across all steps
 
 ### For Each File
 - [ ] Determine type: A (new) / B (no changes) / C (needs changes)
