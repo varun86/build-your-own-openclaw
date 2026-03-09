@@ -12,7 +12,8 @@ from litellm.types.completion import (
     ChatCompletionMessageToolCallParam,
 )
 
-from src.core.history import HistoryMessage, HistoryStore
+from src.core.history import HistoryStore
+from src.core.session_state import SessionState
 from src.core.skill_loader import SkillLoader
 from src.provider.llm import LLMProvider, LLMToolCall
 from src.tools.registry import ToolRegistry
@@ -23,57 +24,71 @@ if TYPE_CHECKING:
     from src.utils.config import Config
 
 
-@dataclass
-class SessionState:
-    """Pure conversation state container."""
+class Agent:
+    """
+    A configured agent that creates and manages conversation sessions.
 
-    session_id: str
-    agent: "Agent"
-    messages: list[Message] = field(default_factory=list)
-    _history: HistoryStore | None = field(default=None, repr=False)
+    Agent is a factory for sessions and holds the LLM and config
+    that sessions use for chatting.
+    """
 
-    def add_message(self, message: Message) -> None:
-        """Add message to conversation history."""
-        self.messages.append(message)
+    def __init__(self, agent_def: "AgentDef", config: "Config") -> None:
+        self.agent_def = agent_def
+        self.config = config
+        self.llm = LLMProvider.from_config(agent_def.llm)
+        self.skill_loader = SkillLoader.from_config(config)
+        self.history_store = HistoryStore.from_config(config)
 
-        # Save to history if available
-        if self._history:
-            history_msg = HistoryMessage.from_message(message)
-            self._history.save_message(self.session_id, history_msg)
+    def _build_tools(self) -> ToolRegistry:
+        """
+        Build a ToolRegistry with tools appropriate for the session.
 
-    def build_messages(self) -> list[Message]:
-        """Build messages list with system prompt."""
-        system_prompt = self.agent.agent_def.agent_md
-        messages: list[Message] = [{"role": "system", "content": system_prompt}]
-        messages.extend(self.messages)
-        return messages
+        Returns:
+            ToolRegistry with base tools + optional tools
+        """
+        registry = ToolRegistry.with_builtins()
 
-    @classmethod
-    def from_history(
-        cls, session_id: str, agent: "Agent", history: HistoryStore
-    ) -> "SessionState":
-        """Load session state from history."""
-        # Get messages from history
-        history_messages = history.get_messages(session_id)
-        messages = [hm.to_message() for hm in history_messages]
+        # Add skill tool if skills are available
+        skill_tool = create_skill_tool(self.skill_loader)
+        if skill_tool:
+            registry.register(skill_tool)
 
-        return cls(
+        return registry
+
+    def new_session(self, session_id: str | None = None) -> "AgentSession":
+        """
+        Create a new conversation session.
+
+        Args:
+            session_id: Optional session ID (generated if not provided)
+
+        Returns:
+            A new AgentSession instance.
+        """
+        session_id = session_id or str(uuid.uuid4())
+        tools = self._build_tools()
+
+        state = SessionState(
             session_id=session_id,
-            agent=agent,
-            messages=messages,
-            _history=history,
+            agent=self,
+            messages=[],
+            history_store = self.history_store
         )
+
+        session = AgentSession(agent=self, state=state, tools=tools)
+        self.history_store.create_session(self.agent_def.id, session_id)
+        
+        return session
 
 
 @dataclass
 class AgentSession:
     """Chat orchestrator - operates on swappable SessionState."""
 
-    agent: "Agent"
+    agent: Agent
     state: SessionState
     tools: ToolRegistry
     started_at: datetime = field(default_factory=datetime.now)
-    history: HistoryStore | None = field(default=None)
 
     @property
     def session_id(self) -> str:
@@ -158,6 +173,7 @@ class AgentSession:
         Returns:
             Tool execution result
         """
+        # Extract key arguments
         try:
             args = json.loads(tool_call.arguments)
         except json.JSONDecodeError:
@@ -169,73 +185,3 @@ class AgentSession:
             result = f"Error executing tool: {e}"
 
         return result
-
-
-class Agent:
-    """
-    A configured agent that creates and manages conversation sessions.
-
-    Agent is a factory for sessions and holds the LLM and config
-    that sessions use for chatting.
-    """
-
-    def __init__(self, agent_def: "AgentDef", config: "Config") -> None:
-        self.agent_def = agent_def
-        self.config = config
-        self.llm = LLMProvider.from_config(agent_def.llm)
-        self.skill_loader = SkillLoader.from_config(config)
-        self.history = HistoryStore.from_config(config)
-
-    def new_session(self, session_id: str | None = None) -> AgentSession:
-        """
-        Create a new conversation session.
-
-        Args:
-            session_id: Optional session ID (generated if not provided)
-
-        Returns:
-            A new AgentSession instance.
-        """
-        session_id = session_id or str(uuid.uuid4())
-
-        # Create session in history
-        self.history.create_session(self.agent_def.id, session_id)
-
-        state = SessionState(
-            session_id=session_id,
-            agent=self,
-            messages=[],
-            _history=self.history,
-        )
-
-        # Create tool registry with builtins
-        tools = ToolRegistry.with_builtins()
-
-        # Add skill tool if skills are available
-        skill_tool = create_skill_tool(self.skill_loader)
-        if skill_tool:
-            tools.register(skill_tool)
-
-        return AgentSession(agent=self, state=state, tools=tools, history=self.history)
-
-    def load_session(self, session_id: str) -> AgentSession:
-        """
-        Load an existing conversation session from history.
-
-        Args:
-            session_id: Session ID to load
-
-        Returns:
-            AgentSession with restored conversation history
-        """
-        state = SessionState.from_history(session_id, self, self.history)
-
-        # Create tool registry with builtins
-        tools = ToolRegistry.with_builtins()
-
-        # Add skill tool if skills are available
-        skill_tool = create_skill_tool(self.skill_loader)
-        if skill_tool:
-            tools.register(skill_tool)
-
-        return AgentSession(agent=self, state=state, tools=tools, history=self.history)

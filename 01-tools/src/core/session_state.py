@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 from litellm.types.completion import ChatCompletionMessageParam as Message
@@ -12,7 +12,7 @@ class SessionState:
 
     session_id: str
     agent: "Agent"
-    messages: list[Message] = field(default_factory=list)
+    messages: list[Message]
 
     def add_message(self, message: Message) -> None:
         """Add message to conversation history."""

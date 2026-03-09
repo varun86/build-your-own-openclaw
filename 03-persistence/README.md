@@ -25,12 +25,19 @@ User Input → ChatLoop → AgentSession → Agent → LLM
                      .sessions/sessions/{id}.jsonl
 ```
 
+File System Structure:
+
+```
+.sessions/
+├── index.jsonl              # Session metadata
+└── sessions/
+    └── {session_id}.jsonl   # Messages (one file per session)
+```
+
 ### Key Components
 
-- **HistoryStore**: JSONL file-based storage for sessions and messages
-- **HistorySession**: Session metadata (id, agent_id, title, message_count)
-- **HistoryMessage**: Message format with conversion to/from litellm format
-- **Session recovery**: Auto-recover last session on startup
+- **.session/index.jsonl**: JSONL file-based index for sessions, including metadata
+- **.session/sessions/{id}.jsonl**: JSONL file-based storage for messages
 
 ## Key Changes
 
@@ -50,19 +57,6 @@ class HistoryStore:
         """Get all messages for a session."""
 ```
 
-[src/core/agent.py](src/core/agent.py) - Modified
-
-```python
-class Agent:
-    def new_session(self, session_id: str | None = None) -> AgentSession:
-        """Create a new session and save to history."""
-
-    def load_session(self, session_id: str) -> AgentSession:
-        """Load an existing session from history."""
-
-    def get_last_session(self) -> str | None:
-        """Get the most recent session ID."""
-```
 
 ## How to Run
 
@@ -72,15 +66,6 @@ uv run your-own-bot chat
 
 # Each run starts a new session
 # Messages are saved to .sessions/ directory
-```
-
-## Storage Structure
-
-```
-.sessions/
-├── index.jsonl              # Session metadata
-└── sessions/
-    └── {session_id}.jsonl   # Messages (one file per session)
 ```
 
 ## What's Next
