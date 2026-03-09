@@ -1,8 +1,4 @@
-"""Shared utilities for loading definition files (agents, skills, crons).
-
-Simplified version for step 00 - template substitution removed.
-Compatible with Python 3.11+.
-"""
+"""Shared utilities for loading definition files (agents, skills, crons)."""
 
 import logging
 from pathlib import Path
