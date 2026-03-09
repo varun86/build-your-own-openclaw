@@ -1,11 +1,26 @@
 """Base LLM provider abstraction."""
 
+from dataclasses import dataclass
 from typing import Any, Optional, cast
 
 from litellm import acompletion, Choices
 from litellm.types.completion import ChatCompletionMessageParam as Message
 
 from src.utils.config import LLMConfig
+
+
+@dataclass
+class LLMToolCall:
+    """
+    A tool/function call from the LLM.
+
+    Simplified adapter over litellm's ChatCompletionMessageToolCall
+    which has nested structure (function.name, function.arguments).
+    """
+
+    id: str
+    name: str
+    arguments: str  # JSON string
 
 
 class LLMProvider:
@@ -62,18 +77,14 @@ class LLMProvider:
     async def chat(
         self,
         messages: list[Message],
+        tools: Optional[list[dict[str, Any]]] = None,
         **kwargs: Any,
-    ) -> str:        
-        """Call LLM with messages.
+    ) -> tuple[str, list[LLMToolCall]]:
+        """
+        Send a chat request to the LLM.
 
-        Args:
-            messages: List of message dicts with "role" and "content"
-
-        Returns:
-            Assistant response text
-
-        Raises:
-            Exception: If LLM call fails
+        Default implementation using litellm. Subclasses can override
+        if provider-specific behavior is needed.
         """
         request_kwargs: dict[str, Any] = {
             "model": self.model,
@@ -83,10 +94,22 @@ class LLMProvider:
 
         if self.api_base:
             request_kwargs["api_base"] = self.api_base
+        if tools:
+            request_kwargs["tools"] = tools
         request_kwargs.update(kwargs)
 
         response = await acompletion(**request_kwargs)
 
         message = cast(Choices, response.choices[0]).message
 
-        return message.content or ""
+        return (
+            message.content or "",
+            [
+                LLMToolCall(
+                    id=tc["id"],
+                    name=tc["function"]["name"],
+                    arguments=tc["function"]["arguments"],
+                )
+                for tc in (message.tool_calls or [])
+            ],
+        )

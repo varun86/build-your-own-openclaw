@@ -46,3 +46,6 @@ docs/
 **/config.runtime.yaml
 
 **/uv.lock
+
+# local utils
+compare_folders.py
