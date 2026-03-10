@@ -62,7 +62,7 @@ class HistoryStore:
 
 ```bash
 cd 03-persistence
-uv run your-own-bot chat
+uv run my-bot chat
 
 # Each run starts a new session
 # Messages are saved to .sessions/ directory

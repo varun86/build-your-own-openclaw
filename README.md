@@ -27,13 +27,13 @@ Build a fully-functional agent that can chat, use tools, learn skills, remember 
 - **03-persistence** - Remember conversations
 - **04-slash-commands** - User control
 - **05-compaction** - Handle long conversations
-- **06-config-hot-reload** - Edit without restart
-- **07-web-tools** - Search and read the web
+- **06-web-tools** - Search and read the web
 
 ### Phase 2: Event-Driven Architecture (Steps 9-11)
 Refactor to event-driven architecture for scalability and multi-platform support.
 
-- **08-event-driven** - The Great Refactor
+- **07-event-driven** - The Great Refactor
+- **08-config-hot-reload** - Edit without restart
 - **09-channels** - Multi-platform support
 - **10-websocket-ui** - Real-time UI
 
@@ -105,8 +105,6 @@ cd 00-chat-loop
 # Read the README
 cat README.md
 
-# Run the code
-uv run python src/main.py chat
 ```
 
 ## Reference Implementation

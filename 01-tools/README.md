@@ -94,7 +94,7 @@ async def chat(self, message: str) -> str:
 
 ```bash
 cd 01-tools
-uv run your-own-bot chat
+uv run my-bot chat
 
 # You: Hey Can you read your README.md please?
 # pickle: I found and read the README.md file! 🐱

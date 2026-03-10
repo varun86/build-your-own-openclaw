@@ -80,7 +80,7 @@ class ContextCommand(Command):
 
 ```bash
 cd 05-compaction
-uv run your-own-bot chat
+uv run my-bot chat
 
 # Check context usage anytime:
 # You: /context

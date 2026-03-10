@@ -62,7 +62,7 @@ This works because:
 
 ### Phase 3: Validation
 
-1. Code runs: `uv run your-own-bot chat`
+1. Code runs: `uv run my-bot chat`
 2. Test the new feature
 3. Verify patterns match picklebot
 4. Write/update README.md (follow concise format - see "README Format" section below)
@@ -164,7 +164,7 @@ This works because:
 - [ ] Keep core logic intact
 
 ### Validation Checklist
-- [ ] `uv run your-own-bot chat` works
+- [ ] `uv run my-bot chat` works
 - [ ] New feature works as described
 - [ ] Matches picklebot patterns
 - [ ] README.md updated (follow concise format from Step 00)

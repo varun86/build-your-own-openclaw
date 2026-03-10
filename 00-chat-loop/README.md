@@ -51,7 +51,7 @@ class ChatLoop:
         """Run the interactive chat loop."""
         rprint(
             Panel(
-                Text("Welcome to your-own-bot!", style="bold cyan"),
+                Text("Welcome to my-bot!", style="bold cyan"),
                 title="Chat",
                 border_style="cyan",
             )
@@ -109,7 +109,7 @@ The file structure is complicated intentionally to avoid big refaction in future
 
 ```bash
 cd 00-chat-loop
-uv run your-own-bot chat
+uv run my-bot chat
 
 # Type 'quit' or 'exit' to end the session.
 

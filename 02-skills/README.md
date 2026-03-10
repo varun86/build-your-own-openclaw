@@ -82,7 +82,7 @@ So it will be injected as one extra layer of system prompt in [Step 14: Multi-La
 
 ```bash
 cd 02-skills
-uv run your-own-bot chat
+uv run my-bot chat
 
 # You: What skills do you have available?
 # pickle: Hi there! 🐱 I have access to two specialized skills:

@@ -74,7 +74,7 @@ def create_websearch_tool(config: Config) -> BaseTool | None:
 
 ```bash
 cd 06-web-tools
-uv run your-own-bot chat
+uv run my-bot chat
 
 # You: Search the web for the latest news about AI
 # Agent: [uses websearch tool]

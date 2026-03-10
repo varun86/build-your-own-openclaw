@@ -75,7 +75,7 @@ response = await self.session.chat(user_input)
 
 ```bash
 cd 04-slash-commands
-uv run your-own-bot chat
+uv run my-bot chat
 
 # Try the commands:
 # You: /help
