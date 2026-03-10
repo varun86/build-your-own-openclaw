@@ -34,7 +34,7 @@ ENV/
 *~
 
 # Session data
-.sessions/
+.history/
 
 # OS
 .DS_Store

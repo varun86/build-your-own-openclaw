@@ -33,7 +33,7 @@ class Config(BaseModel):
     default_agent: str
     agents_path: Path = Field(default=Path("agents"))
     skills_path: Path = Field(default=Path("skills"))
-    history_path: Path = Field(default=Path(".sessions"))
+    history_path: Path = Field(default=Path(".history"))
 
     @model_validator(mode="after")
     def resolve_paths(self) -> "Config":

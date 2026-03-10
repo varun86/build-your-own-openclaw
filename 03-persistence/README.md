@@ -22,13 +22,13 @@ User Input → ChatLoop → AgentSession → Agent → LLM
                               ↓
                          HistoryStore
                               ↓
-                     .sessions/sessions/{id}.jsonl
+                     .history/sessions/{id}.jsonl
 ```
 
 File System Structure:
 
 ```
-.sessions/
+.history/
 ├── index.jsonl              # Session metadata
 └── sessions/
     └── {session_id}.jsonl   # Messages (one file per session)
@@ -36,8 +36,8 @@ File System Structure:
 
 ### Key Components
 
-- **.session/index.jsonl**: JSONL file-based index for sessions, including metadata
-- **.session/sessions/{id}.jsonl**: JSONL file-based storage for messages
+- **.history/index.jsonl**: JSONL file-based index for sessions, including metadata
+- **.history/sessions/{id}.jsonl**: JSONL file-based storage for messages
 
 ## Key Changes
 
@@ -65,7 +65,7 @@ cd 03-persistence
 uv run my-bot chat
 
 # Each run starts a new session
-# Messages are saved to .sessions/ directory
+# Messages are saved to .history/ directory
 ```
 
 ## What's Next
