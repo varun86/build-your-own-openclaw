@@ -271,47 +271,7 @@ class HistoryStore:
 
 ---
 
-### Step 04: Compaction - Handle Long Conversations
-
-**Problem:** Context window fills up, can't have long conversations
-
-**What to Build:**
-- ContextGuard class (token counting)
-- Message compaction strategy
-- Keep recent + important messages
-- Compaction triggers
-
-**Pickle-bot References:**
-- `core/context_guard.py` - ContextGuard
-- `core/agent.py` - Compaction logic
-
-**Key Code to Copy:**
-```python
-# From: core/context_guard.py
-class ContextGuard:
-    def should_compact(self, messages: list) -> bool:
-        # Check token count
-
-    def compact(self, messages: list) -> list:
-        # Keep recent + important
-```
-
-**Implementation Notes:**
-- Use tiktoken for token counting (matches pickle-bot)
-- Keep last N messages (simple strategy)
-- Summarize old messages (optional, requires LLM call)
-- Add /compact command for manual trigger
-- Check token count before each LLM call
-
-**Alternative Approaches:**
-1. No compaction, just fail (simpler, limited conversations)
-2. Summarize all old messages (more context, more tokens)
-3. Use sliding window only (no summarization)
-4. Use semantic search to find important messages (more complex)
-
----
-
-### Step 05: Slash Commands - User Control
+### Step 04: Slash Commands - User Control
 
 **Problem:** User has no way to control the conversation
 
@@ -350,6 +310,46 @@ class CommandRegistry:
 1. No command system (simpler, less control)
 2. Use CLI flags instead of slash commands (less interactive)
 3. Use natural language commands (more flexible, less reliable)
+
+---
+
+### Step 05: Compaction - Handle Long Conversations
+
+**Problem:** Context window fills up, can't have long conversations
+
+**What to Build:**
+- ContextGuard class (token counting)
+- Message compaction strategy
+- Keep recent + important messages
+- Compaction triggers
+
+**Pickle-bot References:**
+- `core/context_guard.py` - ContextGuard
+- `core/agent.py` - Compaction logic
+
+**Key Code to Copy:**
+```python
+# From: core/context_guard.py
+class ContextGuard:
+    def should_compact(self, messages: list) -> bool:
+        # Check token count
+
+    def compact(self, messages: list) -> list:
+        # Keep recent + important
+```
+
+**Implementation Notes:**
+- Use tiktoken for token counting (matches pickle-bot)
+- Keep last N messages (simple strategy)
+- Summarize old messages (optional, requires LLM call)
+- Add /compact command for manual trigger
+- Check token count before each LLM call
+
+**Alternative Approaches:**
+1. No compaction, just fail (simpler, limited conversations)
+2. Summarize all old messages (more context, more tokens)
+3. Use sliding window only (no summarization)
+4. Use semantic search to find important messages (more complex)
 
 ---
 

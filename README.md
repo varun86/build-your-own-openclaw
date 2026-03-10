@@ -25,8 +25,8 @@ Build a fully-functional agent that can chat, use tools, learn skills, remember 
 - **01-tools** - Agent can take actions
 - **02-skills** - Dynamic capability loading
 - **03-persistence** - Remember conversations
-- **04-compaction** - Handle long conversations
-- **05-slash-commands** - User control
+- **04-slash-commands** - User control
+- **05-compaction** - Handle long conversations
 - **06-config-hot-reload** - Edit without restart
 - **07-web-tools** - Search and read the web
 
