@@ -115,7 +115,7 @@ class ContextGuard:
         self.shared_context.routing_table.config_source_session_cache(
             str(state.source), new_session.session_id
         )
-
+        
         compacted_history = await self._build_compacted_messages(state)
         for message in compacted_history:
             new_session.state.add_message(message)

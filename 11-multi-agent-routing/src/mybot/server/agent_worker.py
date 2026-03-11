@@ -45,7 +45,7 @@ class AgentWorker(SubscriberWorker):
         except DefNotFoundError as e:
             logger.error(f"Agent not found: {agent_id}: {e}")
 
-            await self._emit_response(event, "", agent_def.id, str(e))
+            return await self._emit_response(event, "", agent_def.id, str(e))
 
         asyncio.create_task(self.exec_session(event, agent_def))
 

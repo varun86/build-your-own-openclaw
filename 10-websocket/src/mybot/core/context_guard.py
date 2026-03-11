@@ -11,6 +11,7 @@ from litellm.types.completion import (
 )
 
 from mybot.core.session_state import SessionState
+from mybot.utils.config import SourceSessionConfig
 
 if TYPE_CHECKING:
     from mybot.core.context import SharedContext
@@ -112,7 +113,7 @@ class ContextGuard:
     ) -> "SessionState":
         """Compact history, roll to new session, return new messages."""
         new_session = state.agent.new_session(state.source)
-        self._clear_source_session_cache(str(state.source))
+        self._config_source_session_cache(str(state.source), new_session.session_id)
 
         compacted_history = await self._build_compacted_messages(state)
         for message in compacted_history:
@@ -155,9 +156,7 @@ class ContextGuard:
         messages.extend(state.messages[compress_count:])
         return messages
 
-    def _clear_source_session_cache(self, source_str: str) -> None:
-        if source_str in self.shared_context.config.sources:
-            del self.shared_context.config.sources[source_str]
-            self.shared_context.config.set_runtime(
-                "sources", self.shared_context.config.sources
-            )
+    def _config_source_session_cache(self, source_str: str, session_id: str) -> None:
+        self.shared_context.config.set_runtime(
+            f"""sources.{source_str}""", SourceSessionConfig(session_id=session_id)
+        )

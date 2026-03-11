@@ -562,7 +562,34 @@ class ContextGuard:
 
 ---
 
-### Step 13: Post Message Back - Agent-Initiated Communication
+### Step 13: Multi-Layer Prompts
+
+**Problem:** Single AGENT.md isn't flexible enough
+
+**What to Build:**
+- SOUL.md (personality)
+- MEMORY.md (persistent knowledge)
+- Prompt composition
+- Layer loading
+
+**Pickle-bot References:**
+- `core/agent_def.py` - Multi-file loading
+
+**Implementation Notes:**
+- AGENT.md = base prompt (capabilities, tools)
+- SOUL.md = personality layer (tone, style)
+- MEMORY.md = knowledge layer (user info)
+- Compose all layers at load time
+- Show in AGENT.md what layers exist
+
+**Alternative Approaches:**
+1. Single AGENT.md only (simpler, less organized)
+2. Use database for memory (more complex, more structured)
+3. Use config file instead of markdown (less readable)
+
+---
+
+### Step 14: Post Message Back - Agent-Initiated Communication
 
 **Problem:** Agent can't initiate outbound messages
 
@@ -588,7 +615,7 @@ class ContextGuard:
 
 ---
 
-### Step 14: Agent Dispatch - Multi-Agent Collaboration
+### Step 15: Agent Dispatch - Multi-Agent Collaboration
 
 **Problem:** Need specialized agents working together
 
@@ -614,33 +641,6 @@ class ContextGuard:
 1. Single agent only (simpler, less specialized)
 2. Manual agent switching (less automated)
 3. No agent-to-agent communication (less collaboration)
-
----
-
-### Step 15: Multi-Layer Prompts
-
-**Problem:** Single AGENT.md isn't flexible enough
-
-**What to Build:**
-- SOUL.md (personality)
-- MEMORY.md (persistent knowledge)
-- Prompt composition
-- Layer loading
-
-**Pickle-bot References:**
-- `core/agent_def.py` - Multi-file loading
-
-**Implementation Notes:**
-- AGENT.md = base prompt (capabilities, tools)
-- SOUL.md = personality layer (tone, style)
-- MEMORY.md = knowledge layer (user info)
-- Compose all layers at load time
-- Show in AGENT.md what layers exist
-
-**Alternative Approaches:**
-1. Single AGENT.md only (simpler, less organized)
-2. Use database for memory (more complex, more structured)
-3. Use config file instead of markdown (less readable)
 
 ---
 
@@ -724,9 +724,9 @@ build-your-own-openclaw/
 ├── 10-websocket/
 ├── 11-multi-agent-routing/
 ├── 12-cron-heartbeat/
-├── 13-post-message-back/
-├── 14-agent-dispatch/
-├── 15-multi-layer-prompts/
+├── 13-multi-layer-prompts/
+├── 14-post-message-back/
+├── 15-agent-dispatch/
 ├── 16-concurrency-control/
 └── 17-memory/
     ├── README.md

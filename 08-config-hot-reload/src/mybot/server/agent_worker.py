@@ -44,13 +44,7 @@ class AgentWorker(SubscriberWorker):
         except DefNotFoundError as e:
             logger.error(f"Agent not found: {agent_id}: {e}")
 
-            result_event = OutboundEvent(
-                session_id=event.session_id,
-                content="",
-                error=str(e),
-            )
-            await self.context.eventbus.publish(result_event)
-            return
+            return await self._emit_response(event, "", str(e))
 
         asyncio.create_task(self.exec_session(event, agent_def))
 
@@ -76,7 +70,7 @@ class AgentWorker(SubscriberWorker):
                 )
                 if result:
                     # Emit response and skip agent chat
-                    await self._emit_response(event, result, session, agent_def.id)
+                    await self._emit_response(event, result)
                     logger.info(f"Command completed: {session_id}")
                     return
 
@@ -101,23 +95,20 @@ class AgentWorker(SubscriberWorker):
                 )
                 await self.context.eventbus.publish(retry_event)
             else:
-                result_event = OutboundEvent(
-                    session_id=event.session_id,
-                    content="",
-                    error=str(e),
-                )
-                await self.context.eventbus.publish(result_event)
+                await self._emit_response(event, "", str(e))
+
 
     async def _emit_response(
         self,
         event: InboundEvent,
         content: str,
-        session,
-        agent_id: str,
+        error: str | None = None,
     ) -> None:
         """Emit response event with content."""
+
         result_event = OutboundEvent(
             session_id=event.session_id,
             content=content,
+            error=str(error) if error else None,
         )
         await self.context.eventbus.publish(result_event)

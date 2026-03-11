@@ -42,9 +42,9 @@ Add scheduled tasks, agent collaboration, and intelligent routing.
 
 - **11-multi-agent-routing** - Multiple agent & Right agent for right job
 - **12-cron-heartbeat** - Autonomous scheduled tasks
-- **13-post-message-back** - Agent-initiated communication
-- **14-agent-dispatch** - Agent collaboration
-- **15-multi-layer-prompts** - Sophisticated agent configuration
+- **13-multi-layer-prompts** - Responsive system prompt
+- **14-post-message-back** - Agent-initiated communication
+- **15-agent-dispatch** - Agent collaboration
 
 ### Phase 4: Production & Scale (Steps 17-18)
 Production features for reliability and long-term memory.
