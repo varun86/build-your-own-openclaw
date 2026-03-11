@@ -62,15 +62,15 @@ class CommandRegistry:
         from mybot.core.commands.handlers import (
             HelpCommand,
             SkillsCommand,
-            SessionCommand,
             CompactCommand,
             ContextCommand,
+            SessionCommand,
         )
 
         registry = cls()
         registry.register(HelpCommand())
         registry.register(SkillsCommand())
-        registry.register(SessionCommand())
         registry.register(CompactCommand())
         registry.register(ContextCommand())
+        registry.register(SessionCommand())
         return registry

@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING
 
 from mybot.core.context_guard import ContextGuard
 from mybot.core.session_state import SessionState
-from mybot.core.events import EventSource, CliEventSource
+from mybot.core.events import EventSource
 from mybot.provider.llm import LLMProvider
 from mybot.tools.registry import ToolRegistry
 from mybot.tools.skill_tool import create_skill_tool
@@ -60,11 +60,10 @@ class Agent:
 
     def new_session(
         self,
-        source: EventSource | None = None,
+        source: EventSource,
         session_id: str | None = None,
     ) -> "AgentSession":
         """Create a new conversation session."""
-        source = source or CliEventSource()
         session_id = session_id or str(uuid.uuid4())
         tools = self._build_tools()
 
@@ -153,6 +152,10 @@ class AgentSession:
     def session_id(self) -> str:
         """Delegate to state."""
         return self.state.session_id
+
+    @property
+    def source(self) -> "EventSource":
+        return self.state.source
 
     @property
     def shared_context(self) -> "SharedContext":

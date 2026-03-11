@@ -57,8 +57,6 @@ class ChannelWorker(Worker):
                         self.context.config.set_runtime(
                             "default_delivery_source", source_str_value
                         )
-                        # Update in-memory value immediately for other workers
-                        self.context.config.default_delivery_source = source_str_value
 
                 session_id = self._get_or_create_session_id(source)
 

@@ -3,6 +3,7 @@
 from typing import TYPE_CHECKING
 
 from mybot.core.commands.base import Command
+from mybot.utils.def_loader import DefNotFoundError
 
 if TYPE_CHECKING:
     from mybot.core.agent import AgentSession
@@ -65,7 +66,7 @@ class SkillsCommand(Command):
         skill_id = args.strip()
         try:
             skill = session.agent.skill_loader.load_skill(skill_id)
-        except FileNotFoundError:
+        except DefNotFoundError:
             return f"✗ Skill `{skill_id}` not found."
 
         lines = [

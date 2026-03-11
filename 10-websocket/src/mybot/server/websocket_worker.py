@@ -127,8 +127,6 @@ class WebSocketWorker(SubscriberWorker):
                 self.logger.error(f"Failed to send to client: {e}")
                 self.clients.discard(client)
 
-        self.context.eventbus.ack(event)
-
     def _get_or_create_session_id(self, source: "EventSource") -> str:
         """Get or create session ID for a given source."""
         source_str = str(source)

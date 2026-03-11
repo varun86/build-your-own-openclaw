@@ -3,6 +3,7 @@
 from typing import TYPE_CHECKING
 
 from mybot.core.commands.base import Command
+from mybot.utils.def_loader import DefNotFoundError
 
 if TYPE_CHECKING:
     from mybot.core.agent import AgentSession
@@ -15,7 +16,7 @@ class SessionCommand(Command):
     description = "Show current session details"
 
     async def execute(self, args: str, session: "AgentSession") -> str:
-        info = session.agent.history_store.history_store.get_session_info(session.session_id)
+        info = session.shared_context.history_store.get_session_info(session.session_id)
 
         # Handle case where session not found in index
         created_str = info.created_at if info else "Unknown"
@@ -38,7 +39,7 @@ class HelpCommand(Command):
 
     async def execute(self, args: str, session: "AgentSession") -> str:
         lines = ["**Available Commands:**"]
-        for cmd in session.command_registry.list_commands():
+        for cmd in session.shared_context.command_registry.list_commands():
             names = [f"/{cmd.name}"] + [f"/{a}" for a in cmd.aliases]
             lines.append(f"{', '.join(names)} - {cmd.description}")
         return "\n".join(lines)
@@ -83,7 +84,7 @@ class SkillsCommand(Command):
 
     async def execute(self, args: str, session: "AgentSession") -> str:
         if not args:
-            skills = session.agent.skill_loader.discover_skills()
+            skills = session.shared_context.skill_loader.discover_skills()
             if not skills:
                 return "No skills configured."
 
@@ -95,8 +96,8 @@ class SkillsCommand(Command):
         # Show specific skill details
         skill_id = args.strip()
         try:
-            skill = session.agent.skill_loader.load_skill(skill_id)
-        except FileNotFoundError:
+            skill = session.shared_context.skill_loader.load_skill(skill_id)
+        except DefNotFoundError:
             return f"✗ Skill `{skill_id}` not found."
 
         lines = [
