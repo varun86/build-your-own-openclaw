@@ -35,16 +35,16 @@ Refactor to event-driven architecture for scalability and multi-platform support
 - **07-event-driven** - The Great Refactor
 - **08-config-hot-reload** - Edit without restart
 - **09-channels** - Multi-platform support
-- **10-websocket-ui** - Real-time UI
+- **10-websocket** - Real-time Websocket Connection
 
 ### Phase 3: Autonomous & Multi-Agent (Steps 12-16)
 Add scheduled tasks, agent collaboration, and intelligent routing.
 
-- **11-cron-heartbeat** - Autonomous scheduled tasks
-- **12-post-message-back** - Agent-initiated communication
-- **13-agent-dispatch** - Agent collaboration
-- **14-multi-layer-prompts** - Sophisticated agent configuration
-- **15-channel-routing** - Right agent for right job
+- **11-multi-agent-routing** - Multiple agent & Right agent for right job
+- **12-cron-heartbeat** - Autonomous scheduled tasks
+- **13-post-message-back** - Agent-initiated communication
+- **14-agent-dispatch** - Agent collaboration
+- **15-multi-layer-prompts** - Sophisticated agent configuration
 
 ### Phase 4: Production & Scale (Steps 17-18)
 Production features for reliability and long-term memory.

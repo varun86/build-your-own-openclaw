@@ -503,7 +503,38 @@ class ContextGuard:
 
 ## Phase 3: Autonomous & Multi-Agent
 
-### Step 11: Cron + Heartbeat - Scheduled Tasks
+### Step 11: Multi-Agent Routing - Right Agent for Right Job
+
+**Problem:** All platforms go to same agent, need specialized agents
+
+**What to Build:**
+- Multiple agent definitions
+- Routing system
+- Binding patterns (regex)
+- Source → agent mapping
+- Default agent fallback
+
+**Pickle-bot References:**
+- `core/routing.py` - Routing logic
+- `core/config.py` - Routing config
+- Multiple agent definitions in `agents/`
+
+**Implementation Notes:**
+- Create multiple agents with different capabilities
+- Regex patterns for routing
+- Route by source type or content
+- Config-based routing rules
+- Show multi-agent usage (different agents for different channels)
+- Handle routing conflicts
+
+**Alternative Approaches:**
+1. Single agent for all channels (simpler, less specialized)
+2. Manual agent selection (less automated)
+3. Round-robin routing (less intelligent)
+
+---
+
+### Step 12: Cron + Heartbeat - Scheduled Tasks
 
 **Problem:** Agent only responds, never initiates
 
@@ -531,7 +562,7 @@ class ContextGuard:
 
 ---
 
-### Step 12: Post Message Back - Agent-Initiated Communication
+### Step 13: Post Message Back - Agent-Initiated Communication
 
 **Problem:** Agent can't initiate outbound messages
 
@@ -557,7 +588,7 @@ class ContextGuard:
 
 ---
 
-### Step 13: Agent Dispatch - Multi-Agent Collaboration
+### Step 14: Agent Dispatch - Multi-Agent Collaboration
 
 **Problem:** Need specialized agents working together
 
@@ -586,7 +617,7 @@ class ContextGuard:
 
 ---
 
-### Step 14: Multi-Layer Prompts
+### Step 15: Multi-Layer Prompts
 
 **Problem:** Single AGENT.md isn't flexible enough
 
@@ -610,34 +641,6 @@ class ContextGuard:
 1. Single AGENT.md only (simpler, less organized)
 2. Use database for memory (more complex, more structured)
 3. Use config file instead of markdown (less readable)
-
----
-
-### Step 15: Channel Routing - Right Agent for Right Job
-
-**Problem:** All platforms go to same agent
-
-**What to Build:**
-- Routing system
-- Binding patterns (regex)
-- Source → agent mapping
-- Default agent fallback
-
-**Pickle-bot References:**
-- `core/routing.py` - Routing logic
-- `core/config.py` - Routing config
-
-**Implementation Notes:**
-- Regex patterns for routing
-- Route by source type or content
-- Config-based routing rules
-- Show multi-agent usage (different agents for different channels)
-- Handle routing conflicts
-
-**Alternative Approaches:**
-1. Single agent for all channels (simpler, less specialized)
-2. Manual agent selection (less automated)
-3. Round-robin routing (less intelligent)
 
 ---
 
@@ -710,7 +713,21 @@ build-your-own-openclaw/
 ├── 01-tools/
 │   ├── README.md
 │   └── src/
-... (one folder per step)
+├── 02-skills/
+├── 03-persistence/
+├── 04-slash-commands/
+├── 05-compaction/
+├── 06-web-tools/
+├── 07-event-driven/
+├── 08-config-hot-reload/
+├── 09-channels/
+├── 10-websocket/
+├── 11-multi-agent-routing/
+├── 12-cron-heartbeat/
+├── 13-post-message-back/
+├── 14-agent-dispatch/
+├── 15-multi-layer-prompts/
+├── 16-concurrency-control/
 └── 17-memory/
     ├── README.md
     └── src/

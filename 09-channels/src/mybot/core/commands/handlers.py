@@ -75,6 +75,24 @@ class ContextCommand(Command):
         return "\n".join(lines)
 
 
+class ClearCommand(Command):
+    """Clear conversation and start fresh."""
+
+    name = "clear"
+    description = "Clear conversation and start fresh"
+
+    async def execute(self, args: str, session: "AgentSession") -> str:
+        source_str = str(session.source)
+
+        if source_str in self.shared_context.config.sources:
+            del self.shared_context.config.sources[source_str]
+            self.shared_context.config.set_runtime(
+                "sources", self.shared_context.config.sources
+            )
+
+        return "✓ Conversation cleared. Next message starts fresh."
+
+
 class SkillsCommand(Command):
     """List all skills or show skill details."""
 
