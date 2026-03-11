@@ -25,12 +25,16 @@ This document tracks features that exist in picklebot but will **never** be adde
 ## HTTP API Endpoints
 
 **Picklebot has:**
-- HTTP API endpoints for skills/agents/crons
+- Full REST API with endpoints for skills/agents/crons/sessions/memories
+- Complete API server with FastAPI routers
 
-**Tutorial has:** None of these
+**Tutorial has:**
+- WebSocket-only FastAPI server (no REST API endpoints)
+- Just the `/ws` endpoint for real-time communication
 
 **Why it's fine:**
-- Tutorial is for learning agent patterns, not production deployment
-- Users can add these later if needed
+- Tutorial focuses on real-time WebSocket communication
+- REST API endpoints add complexity without teaching core concepts
+- Users can add REST endpoints later if needed
 
 ---
