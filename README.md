@@ -1,10 +1,10 @@
 # Build Your Own OpenClaw
 
-A step-by-step tutorial to build your own AI agent framework, from a simple chat loop to a production-ready multi-agent system.
+A step-by-step tutorial to build your own AI agent, from a simple chat loop to a production-ready multi-agent system.
 
 ## Overview
 
-**18 progressive steps** that teach you how to build an AI agent framework like pickle-bot, featuring:
+**18 progressive steps** that teach you how to build an AI agent like pickle-bot, featuring:
 - Tool calling and skill learning
 - Multi-platform support (CLI, Telegram, Discord, WebSocket)
 - Event-driven architecture
