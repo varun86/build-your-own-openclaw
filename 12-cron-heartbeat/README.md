@@ -22,7 +22,7 @@ cp default_workspace/config.example.yaml default_workspace/config.user.yaml
 - **CronWorker** - Background worker that checks every minute for due jobs
 - **DispatchEvent** - Event type for internal message dispatch
 - **DispatchResultEvent** - Result event returned from dispatched jobs
-- **Cron-Ops Skill** - <!-- TODO -->
+- **Cron-Ops Skill** - Skill for creating, listing, and deleting scheduled cron jobs (implemented as a skill to avoid extra tool registry)
 
 [src/mybot/core/cron_loader.py](src/mybot/core/cron_loader.py)
 
@@ -61,7 +61,7 @@ class CronWorker(Worker):
 
 [default_workspace/crons/hello-world/CRON.md](../default_workspace/skills/cron-ops/SKILL.md)
 
-<!-- TODO describe cron ops skill -->
+The Cron Operation functionaliry is implemented using the **SKILL system** rather than registering dedicated tools which avoids bloating the tool registry.
 
 ## Try it out
 
@@ -78,7 +78,9 @@ uv run my-bot server
 ## Notes
 
 Openclaw has a HEARTBEAT mechanism apart from CRON system.
-<!-- TOOD: explain difference and similarity -->
+
+- Can only have one HEARTBEAT, and heartbeats runs in main session at a regular interval without checking time.
+- Can have multiple CRON, they run in background with respect to cron expressions.
 
 ## What's Next
 

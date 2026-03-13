@@ -18,7 +18,7 @@ cp default_workspace/config.example.yaml default_workspace/config.user.yaml
 ## Key Components
 
 - **ChatLoop**: Handles user input and displays responses
-- **LLM Call**:  <!-- TODO -->
+- **LLM Call**: Sends message history to the LLM provider and get response back.
 - **Session**: Manages conversation state and message history, LLM always see the full history.
 
 [src/mybot/cli/chat.py](src/mybot/cli/chat.py)

@@ -150,8 +150,17 @@ class EventBus(Worker):
             final_path.unlink()
 ```
 
-- <!-- TODO event persistence and delivery flow -->
-- <!-- TODO event persistence and delivery flow -->
+- **Outbound Event Persistence Flow**:
+  - `EventBus.publish()` queues event to internal asyncio queue
+  - `EventBus._dispatch()` is called for each event
+  - `_persist_outbound()` writes OutboundEvent to disk atomically (tmp file + fsync + rename)
+  - `_notify_subscribers()` delivers event to all subscribers (e.g., DeliveryWorker)
+
+- **Failure Recovery Flow**:
+  - On EventBus startup, `_recover()` scans pending directory for `.json` files
+  - Each pending event is deserialized and re-dispatched to subscribers
+  - Only after successful delivery does DeliveryWorker call `eventbus.ack(event)`
+  - `ack()` deletes the persisted file, confirming delivery is complete
 
 ## Try it out
 

@@ -51,7 +51,11 @@ class AgentWorker(SubscriberWorker):
 
 ## Note
 
-<!-- TODO mention concurrency control can be done differnelty, like by source, not by agetn. -->
+Concurrency control can be implemented using different granularities depending on your use case:
+
+- **By Agent** (shown here) - Limits concurrent executions per agent type. Useful when certain agents are resource-intensive or have rate limits.
+- **By Source** - Limits concurrent requests from the same user/client. Useful for preventing abuse or ensuring fair resource distribution.
+- **By Priority** - Different concurrency limits for different priority levels. High-priority tasks could have reserved capacity.
 
 ## What's Next
 

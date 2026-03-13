@@ -87,7 +87,15 @@ def create_subagent_dispatch_tool(
     return subagent_dispatch
 ```
 
-<!-- TODO mention the mechasnism here. we still rely on eventbus -->
+### How the Dispatch Mechanism Works
+
+The dispatch mechanism relies on the **eventbus** pattern for communication between agents. Here's the flow:
+
+1. **Publish**: When the main agent calls `subagent_dispatch`, it publishes a `DispatchEvent` to the eventbus containing the task and session information.
+2. **Subscribe**: A temporary handler subscribes to `DispatchResultEvent` events, filtering by the session ID to receive only the response for this specific dispatch.
+3. **Await**: The main agent awaits a future that gets resolved when the subagent completes its work and publishes a `DispatchResultEvent`.
+4. **Cleanup**: After receiving the result, the handler unsubscribes from the eventbus.
+
 
 ## Try it out
 
@@ -106,7 +114,12 @@ uv run my-bot chat
 
 ## Notes
 
-<!-- TODO some other way of implementing multi-agent, like shared task lists, tmux skill -->
+### Alternative Multi-Agent Patterns
+
+Direct subagent dispatching is just one approach to multi-agent orchestration. Here are some other common patterns:
+
+- **Shared Task Lists**: Agents coordinate by reading from and writing to a shared task queue or database. Each agent picks up tasks as they become available, agent never talk to agent directly.
+- **Tmux/Screen Sessions**: `tmux` allow us running multiple processes. A Tmux skill can be provided to agent to guide it execute multiple tasks, achieving multi-agent to some extent. 
 
 ## What's Next
 

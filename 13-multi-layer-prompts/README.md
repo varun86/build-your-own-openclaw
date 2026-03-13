@@ -62,9 +62,10 @@ class PromptBuilder:
 
 ### Example Workspace Setup
 
-- [default_workspace/agents/pickle/AGENT.md](../default_workspace/agents/pickle/AGENT.md)
-[default_workspace/agents/pickle/SOUL.md](../default_workspace/agents/pickle/SOUL.md)
-<!-- TODO AGENTS.md and BOOTSTRAP.md -->
+- [default_workspace/agents/pickle/AGENT.md](../default_workspace/agents/pickle/AGENT.md) - Agent identity, capabilities, and behavioral guidelines (with YAML frontmatter for config)
+- [default_workspace/agents/pickle/SOUL.md](../default_workspace/agents/pickle/SOUL.md) - Personality layer defining the agent's character and tone
+- [default_workspace/BOOTSTRAP.md](../default_workspace/BOOTSTRAP.md) - Workspace guide describing directory structure, file purposes, and path templates for agents, skills, crons, and memories
+- [default_workspace/AGENTS.md](../default_workspace/AGENTS.md) - Lists all available agents and provides dispatching patterns for delegating tasks to specialized agents (e.g., memory operations)
 
 
 ## Try it out
@@ -83,7 +84,7 @@ uv run my-bot server
 
 ## Note
 
-<!-- TODO Mention more layers are possbile, such as memory --> 
+This architecture is extensible - more prompt layers can be added as needed. For example, a **memory layer** could inject relevant memories from past conversations, providing context about the user's preferences, ongoing projects, or historical interactions. 
 
 ## What's Next
 

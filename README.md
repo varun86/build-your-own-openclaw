@@ -1,134 +1,68 @@
 # Build Your Own OpenClaw
 
-A step-by-step tutorial to build your own AI agent, from a simple chat loop to a production-ready multi-agent system.
+A step-by-step tutorial to build your own AI agent, from a simple chat loop to a lightweight version of OpenClaw.
 
 ## Overview
 
-**18 progressive steps** that teach you how to build an AI agent like pickle-bot, featuring:
-- Tool calling and skill learning
-- Multi-platform support (CLI, Telegram, Discord, WebSocket)
-- Event-driven architecture
-- Multi-agent collaboration
-- Scheduled autonomous tasks
-- Long-term memory
+**18 progressive steps** that teach you how to build an minimal version of OpenClaw. Each step includes:
 
-**Target Audience:** Intermediate Python developers (async/await, classes)
+- A `README.md` going through key components and design decision.
+- A Runnable codebase.
 
 **Example Project:** [pickle-bot](../pickle-bot/) - our reference implementation
 
 ## Tutorial Structure
 
-### Phase 1: Capable Single Agent (Steps 1-8)
+### Phase 1: Capable Single Agent (Steps 1-7)
 Build a fully-functional agent that can chat, use tools, learn skills, remember conversations, and access the internet.
 
-- **00-chat-loop** - Your first agent
-- **01-tools** - Agent can take actions
-- **02-skills** - Dynamic capability loading
-- **03-persistence** - Remember conversations
-- **04-slash-commands** - User control
-- **05-compaction** - Handle long conversations
-- **06-web-tools** - Search and read the web
+- [**00-chat-loop**](./00-chat-loop/) - Your first agent
+- [**01-tools**](./01-tools/) - Agent can take actions
+- [**02-skills**](./02-skills/) - Dynamic capability loading
+- [**03-persistence**](./03-persistence/) - Remember conversations
+- [**04-slash-commands**](./04-slash-commands/) - User control
+- [**05-compaction**](./05-compaction/) - Handle long conversations
+- [**06-web-tools**](./06-web-tools/) - Search and read the web
 
-### Phase 2: Event-Driven Architecture (Steps 9-11)
+### Phase 2: Event-Driven Architecture (Steps 8-11)
 Refactor to event-driven architecture for scalability and multi-platform support.
 
-- **07-event-driven** - The Great Refactor
-- **08-config-hot-reload** - Edit without restart
-- **09-channels** - Multi-platform support
-- **10-websocket** - Real-time Websocket Connection
+- [**07-event-driven**](./07-event-driven/) - The Great Refactor
+- [**08-config-hot-reload**](./08-config-hot-reload/) - Edit without restart
+- [**09-channels**](./09-channels/) - Multi-platform support
+- [**10-websocket**](./10-websocket/) - Real-time Websocket Connection
 
 ### Phase 3: Autonomous & Multi-Agent (Steps 12-16)
 Add scheduled tasks, agent collaboration, and intelligent routing.
 
-- **11-multi-agent-routing** - Multiple agent & Right agent for right job
-- **12-cron-heartbeat** - Autonomous scheduled tasks
-- **13-multi-layer-prompts** - Responsive system prompt
-- **14-post-message-back** - Agent-initiated communication
-- **15-agent-dispatch** - Agent collaboration
+- [**11-multi-agent-routing**](./11-multi-agent-routing/) - Multiple agent & Right agent for right job
+- [**12-cron-heartbeat**](./12-cron-heartbeat/) - Autonomous scheduled tasks
+- [**13-multi-layer-prompts**](./13-multi-layer-prompts/) - Responsive system prompt
+- [**14-post-message-back**](./14-post-message-back/) - Agent-initiated communication
+- [**15-agent-dispatch**](./15-agent-dispatch/) - Agent collaboration
 
 ### Phase 4: Production & Scale (Steps 17-18)
 Production features for reliability and long-term memory.
 
-- **16-concurrency-control** - Rate limiting and concurrency
-- **17-memory** - Long-term knowledge system
+- [**16-concurrency-control**](./16-concurrency-control/) - Rate limiting and concurrency
+- [**17-memory**](./17-memory/) - Long-term knowledge system
 
 ## How to Use This Tutorial
 
-<!-- TODO: config api key config.user.yaml -->
+### Configure API Keys
 
-1. **Start at step 00** - Each step builds on the previous
-2. **Read the README** - Each step's README explains the feature and design decisions
-3. **Review the code** - Check `src/` for complete implementation
-4. **Run it yourself** - Each step is runnable and testable
-5. **Compare with pickle-bot** - Reference implementation shows production version
+Before running any step, you need to configure your API keys:
 
-## Implementation Priority
+1. **Copy the example config:**
+   ```bash
+   cp default_workspace/config.example.yaml default_workspace/config.user.yaml
+   ```
 
-**CRITICAL: Follow this priority order when implementing each step:**
+2. **Edit `config.user.yaml`** with your API keys:
+   - See [LiteLLM providers](https://docs.litellm.ai/docs/providers)
 
-1. ⭐ **Match pickle-bot code first**
-   - Copy from `../pickle-bot/src/picklebot/`
-   - Use same classes, functions, patterns
-   - Simplify if needed, but keep core logic
-
-2. ⭐ **Match previous step second**
-   - Start from previous step's `src/` folder
-   - Make incremental changes only
-   - Preserve structure and patterns
-
-3. ⭐ **Write new code last**
-   - Only if no reference exists in pickle-bot
-   - Only if can't build on previous step
-   - Document why new code was needed
-
-**Why this matters:**
-- pickle-bot is battle-tested production code
-- Incremental changes are easier to understand
-- Avoid reinventing the wheel
-
-## Prerequisites
-
-- Python 3.11+
-- Understanding of async/await
-- Basic understanding of LLMs (OpenAI API or similar)
-- UV package manager (recommended)
-
-## Quick Start
-
-```bash
-# Navigate to the tutorial
-cd build-your-own-openclaw
-
-# Start with step 00
-cd 00-chat-loop
-
-# Read the README
-cat README.md
-
-```
-
-## Reference Implementation
-
-This tutorial is based on [pickle-bot](../pickle-bot/), a production AI assistant framework. When in doubt, check the reference implementation!
-
-## Project Structure
-
-```
-build-your-own-openclaw/
-├── README.md              # This file (index)
-├── PLAN.md                # Detailed implementation guide
-├── 00-chat-loop/          # Step 0: Basic chat loop
-│   ├── README.md
-│   └── src/
-├── 01-tools/              # Step 1: Add tools
-│   ├── README.md
-│   └── src/
-├── ...                    # Steps 2-16
-└── 17-memory/             # Step 17: Memory system
-    ├── README.md
-    └── src/
-```
+3. Just follow each steps, read and try it out.
 
 ## Contributing
 
-This tutorial is a work in progress. Each step is implemented in a separate session. Feel free to suggest improvements!
+Each step is implemented in a separate session. Feel free to suggest improvements!
