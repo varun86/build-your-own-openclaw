@@ -26,11 +26,11 @@ User ↔ Pickle (Main Agent)
         └── daily-notes/ (YYYY-MM-DD.md)
 ```
 
-### Key Components
+## Key Components
 
 - **Memory agent**: Specialized agent for memory management
 
-## Key Changes
+
 
 ### `default_workspace/agents/cookie/AGENT.md` - Memory agent definition
 

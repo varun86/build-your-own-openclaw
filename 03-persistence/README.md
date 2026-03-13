@@ -1,5 +1,6 @@
-# Step 03: Persistence - Remember Conversations
+# Step 03: Persistence
 
+> Save your conversations.
 Save and restore conversation history so the agent remembers past interactions.
 
 ## Prerequisites
@@ -13,17 +14,7 @@ cp default_workspace/config.example.yaml default_workspace/config.user.yaml
 
 ## What We will Build?
 
-### Architecture
-
-```
-User Input → ChatLoop → AgentSession → Agent → LLM
-                              ↓              ↑
-                         ToolRegistry ← Tool Calls
-                              ↓
-                         HistoryStore
-                              ↓
-                     .history/sessions/{id}.jsonl
-```
+<img src="03-persistence.svg" align="center" width="100%" />
 
 File System Structure:
 
@@ -34,19 +25,17 @@ File System Structure:
     └── {session_id}.jsonl   # Messages (one file per session)
 ```
 
-### Key Components
+## Key Components
 
 - **.history/index.jsonl**: JSONL file-based index for sessions, including metadata
 - **.history/sessions/{id}.jsonl**: JSONL file-based storage for messages
 
-## Key Changes
 
-[src/core/history.py](src/core/history.py) - New file
+
+[src/mybot/core/history.py](src/mybot/core/history.py) - New file
 
 ```python
 class HistoryStore:
-    """JSONL file-based history storage."""
-
     def create_session(self, agent_id: str, session_id: str) -> dict:
         """Create a new conversation session."""
 
@@ -58,7 +47,7 @@ class HistoryStore:
 ```
 
 
-## How to Run
+## Try it out
 
 ```bash
 cd 03-persistence
@@ -70,4 +59,4 @@ uv run my-bot chat
 
 ## What's Next
 
-[Step 04: Compaction](../04-compaction/) - Handle long conversations with context management
+[Step 04: Slash Commands](../04-slash-commands/) - Direct Commands Invokation

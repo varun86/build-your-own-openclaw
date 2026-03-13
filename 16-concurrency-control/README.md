@@ -25,13 +25,13 @@ Multiple InboundEvents for Agent A
     Task 3   ← Waiting in queue
 ```
 
-### Key Components
+## Key Components
 
 - **AgentDef.max_concurrency**: Configurable per-agent limit (default: 1)
 - **AgentWorker._semaphores**: Dictionary of semaphores per agent
 - **async with sem**: Blocks when concurrency limit reached
 
-## Key Changes
+
 
 [src/mybot/core/agent_loader.py](src/mybot/core/agent_loader.py) - Add max_concurrency field
 

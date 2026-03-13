@@ -1,92 +1,90 @@
 # Step 06: Web Tools - Access the Internet
 
-Add web search and URL reading capabilities to the agent.
+> Your Agent want to see the bigger world.
+> At the root, they are just two new tools.
 
 ## Prerequisites
 
-Same as Step 00, plus optional web API keys:
-
 ```bash
 cp default_workspace/config.example.yaml default_workspace/config.user.yaml
-# Edit config.user.yaml to add your API key and optionally:
-# - websearch.api_key (Brave Search API key from https://brave.com/search/api/)
-# - webread config (uses Crawl4AI, no API key needed)
+# Edit config.user.yaml to add your API key
+# Uncommend websearch and webread sections
+# Add your websearch api key
 ```
 
 ## What We Will Build
 
-### Architecture
+<img src="06-web-tools.svg" align="center" width="100%" />
 
-```
-AgentSession.chat() → Tool Call (websearch/webread)
-                              │
-                              ├─→ websearch → WebSearchProvider → Brave Search API
-                              │
-                              └─→ webread → WebReadProvider → Crawl4AI
-```
+## Key Components
 
-### Key Components
+- **WebSearchProvider**: Web search providers.
+- **WebReadProvider**: Web reading providers.
+- **Tools**: `websearch` and `webread` tools.
 
-- **WebSearchProvider**: Abstract base for search providers with `from_config()` factory
-- **WebReadProvider**: Abstract base for web reading providers
-- **Tools**: `websearch` and `webread` tools registered conditionally
 
-## Key Changes
 
-[src/provider/web_search/](src/provider/web_search/) - New module
+[src/mybot/provider/web_search/](src/mybot/provider/web_search/)
 
 ```python
-class SearchResult(BaseModel):
-    title: str
-    url: str
-    snippet: str
-
 class WebSearchProvider(ABC):
     async def search(self, query: str) -> list[SearchResult]: ...
-    @staticmethod
-    def from_config(config: Config) -> WebSearchProvider: ...
 ```
 
-[src/provider/web_read/](src/provider/web_read/) - New module
+[src/mybot/provider/web_read/](src/mybot/provider/web_read/)
 
 ```python
-class ReadResult(BaseModel):
-    url: str
-    title: str
-    content: str  # Markdown
-    error: str | None = None
-
 class WebReadProvider(ABC):
     async def read(self, url: str) -> ReadResult: ...
 ```
 
-[src/tools/websearch_tool.py](src/tools/websearch_tool.py) - New file
+[src/mybot/tools/websearch_tool.py](src/mybot/tools/websearch_tool.py)
 
 ```python
-def create_websearch_tool(config: Config) -> BaseTool | None:
-    if not config.websearch:
-        return None
-    provider = WebSearchProvider.from_config(config)
-    # Returns tool that searches and formats results as markdown
+@tool(...)
+async def websearch(query: str, session: "AgentSession") -> str:
+    results = await provider.search(query)
+
+    if not results:
+        return "No results found."
+    output = []
+    for i, r in enumerate(results, 1):
+        output.append(f"{i}. **{r.title}**\n   {r.url}\n   {r.snippet}")
+    return "\n\n".join(output)
 ```
 
-## How to Run
+[src/mybot/tools/webread_tool.py](src/mybot/tools/webread_tool.py)
+
+```python
+@tool(...)
+async def webread(url: str, session: "AgentSession") -> str:
+    result = await provider.read(url)
+    if result.error:
+        return f"Error reading {url}: {result.error}"
+
+    return f"**{result.title}**\n\n{result.content}"
+```
+
+## Try it out
 
 ```bash
 cd 06-web-tools
 uv run my-bot chat
 
-# You: Search the web for the latest news about AI
-# Agent: [uses websearch tool]
-# 1. **Latest AI News - TechCrunch**
-#    https://techcrunch.com/...
-#    Breaking developments in artificial intelligence...
+# You: What is pickle bot? search online please.
+# pickle: Based on my search, there are actually a few different things called "Pickle Bot":
 
-# You: Read the content from https://example.com
-# Agent: [uses webread tool]
-# **Example Page Title**
-#
-# The page content in markdown format...
+# ### 1. **Pickle Robot Company** 🤖
+# ### 2. **Pickle Bot (Discord Bot)** 💬
+# ### 3. **pickle-bot (GitHub)** 🐱
+# An open-source project described as:
+# - "Your own AI assistant, speak like a cat"
+# - "Pickle is a standard little cat"
+# - A customizable AI assistant that you can name, talk to, and teach
+
+# The GitHub version sounds like it could be related to me - a cat-speaking AI assistant! 😺
+
+# Which one were you curious about?
 ```
 
 ## What's Next

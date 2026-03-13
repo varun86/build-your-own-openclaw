@@ -44,7 +44,7 @@ Extend the agent to support multiple messaging platforms (CLI, Telegram, Discord
 - **RoutingTable** - Maps sources to sessions and agents
 - **Server** - Orchestrates all workers (EventBus, AgentWorker, ChannelWorker, DeliveryWorker)
 
-## Key Changes
+
 
 ### 1. EventSource and Platform Sources ([src/mybot/core/events.py](src/mybot/core/events.py))
 

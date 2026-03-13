@@ -46,7 +46,7 @@ Route incoming messages to specialized agents based on source patterns.
 - **AgentLoader.discover_agents()** - Scans agents directory to find all available agents
 - **CLI Commands** - `routing`, `binding`, `agents` for managing multi-agent setup
 
-## Key Changes
+
 
 ### 1. RoutingTable ([src/mybot/core/routing.py](src/mybot/core/routing.py))
 

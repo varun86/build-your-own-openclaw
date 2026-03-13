@@ -1,6 +1,6 @@
 # Step 00: Just a Chat Loop
 
-Build a minimal chat bot that can have a conversation using an LLM.
+> All agents start with a simple chat loop.
 
 ## Prerequisites
 
@@ -8,47 +8,24 @@ Copy the config file and add your API key:
 
 ```bash
 cp default_workspace/config.example.yaml default_workspace/config.user.yaml
-# Edit config.user.yaml to add your API key for different providers
+# Edit config.user.yaml to add your API key
 ```
 
 ## What We will Build?
 
-### Architecture
+<img src="00-chat-loop.svg" align="center" width="100%" />
 
-<!-- TODO: Diagram -->
-```
-User Input → ChatLoop → AgentSession → Agent → LLM → Response
-                              ↑
-                         Message History
-```
-
-### Key Components
+## Key Components
 
 - **ChatLoop**: Handles user input and displays responses
-- **AgentSession**: Manages conversation state and message history, LLM always see the full history.
-- **Agent**: Coordinates between session and LLM
-- **Message**: Simple `{role, content}` pairs stored in history
+- **LLM Call**:  <!-- TODO -->
+- **Session**: Manages conversation state and message history, LLM always see the full history.
 
-
-## Key Changes
-
-[src/cli/chat.py](src/cli/chat.py)
+[src/mybot/cli/chat.py](src/mybot/cli/chat.py)
 
 ```python
 class ChatLoop:
-    def __init__(self, config: Config, agent_id: str | None = None):
-        self.config = config
-        self.console = Console()
-
-        loader = AgentLoader(config)
-        agent_id = agent_id or config.default_agent
-        self.agent_def = loader.load(agent_id)
-
-        self.agent = Agent(self.agent_def, config)
-        self.session = self.agent.new_session()
-
     async def run(self) -> None:
-        """Run the interactive chat loop."""
         self.console.print(
             Panel(
                 Text("Welcome to my-bot!", style="bold cyan"),
@@ -79,15 +56,10 @@ class ChatLoop:
             self.console.print("\n[bold yellow]Goodbye![/bold yellow]")
 ```
 
-[src/core/agent.py](src/core/agent.py)
+[src/mybot/core/agent.py](src/mybot/core/agent.py)
 
 ``` python
-@dataclass
 class AgentSession:
-    agent: Agent
-    state: SessionState
-    started_at: datetime = field(default_factory=datetime.now)
-
     async def chat(self, message: str) -> str:
         user_msg: Message = {"role": "user", "content": message}
         self.state.add_message(user_msg)
@@ -101,11 +73,33 @@ class AgentSession:
         return response
 ```
 
-## Notes
+[src/mybot/provider/llm/base.py](src/mybot/provider/llm/base.py)
 
-The file structure is complicated intentionally to avoid big refaction in future steps.
+``` python 
+class LLMProvider:
+    async def chat(
+        self,
+        messages: list[Message],
+        **kwargs: Any,
+    ) -> str:        
+        request_kwargs: dict[str, Any] = {
+            "model": self.model,
+            "messages": messages,
+            "api_key": self.api_key,
+        }
 
-## How to Run
+        if self.api_base:
+            request_kwargs["api_base"] = self.api_base
+        request_kwargs.update(kwargs)
+
+        response = await acompletion(**request_kwargs)
+        message = cast(Choices, response.choices[0]).message
+
+        return message.content or ""
+```
+
+
+## Try it out
 
 ```bash
 cd 00-chat-loop

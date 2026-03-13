@@ -1,6 +1,8 @@
-# Step 02: Skills - Dynamic Capability Loading
+# Step 02: Skills
 
-Load specialized skills on-demand instead of keeping all capabilities in memory.
+> Extend your agent with `SKILL.md`.
+
+Skills are lazy loaded capability referencing [official doc](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) for more details.
 
 ## Prerequisites
 
@@ -13,31 +15,17 @@ cp default_workspace/config.example.yaml default_workspace/config.user.yaml
 
 ## What We will Build?
 
-### Architecture
+<img src="02-skills.svg" align="center" width="100%" />
 
-```
-User Input → ChatLoop → AgentSession → Agent → LLM
-                              ↓              ↑
-                         ToolRegistry ← Tool Calls
-                              ↓
-                    ┌─────────┴─────────┐
-                    ↓                   ↓
-               skill tool          other tools
-                    ↓
-               SkillLoader
-                    ↓
-               SKILL.md files
-```
-
-### Key Components
+## Key Components
 
 - **SkillDef**: Skill definitions (id, name, description, content)
 - **SKILL.md**: YAML frontmatter + markdown body format
 - **skill tool**: Dynamic tool that lists available skills and loads content on-demand
 
-## Key Changes
 
-[src/tools/skill_tool.py](src/tools/skill_tool.py)
+
+[src/mybot/tools/skill_tool.py](src/mybot/tools/skill_tool.py)
 
 ```python
 def create_skill_tool(skill_loader: "SkillLoader"):
@@ -72,13 +60,13 @@ Openclaw does not implement skill system with a separate tool. Instead, it uses 
 
 **System Prompt Approach (OpenClaw):**
 - Skill metadata (id, name, description) injected into system prompt
-- Agent uses standard `readfile` tool to read SKILL.md
+- Agent uses standard `read` tool to read SKILL.md
 - No specialized skill tool needed
 - Simpler tool registry
 
-So it will be injected as one extra layer of system prompt in [Step 14: Multi-Layer Prompts](../14-multi-layer-prompts/).
+> To implementing skills as part of system prompt, inject that as one more layer of prompt as mentioned [Step 13: Multi-Layer Prompts](../13-multi-layer-prompts/).
 
-## How to Run
+## Try it out
 
 ```bash
 cd 02-skills

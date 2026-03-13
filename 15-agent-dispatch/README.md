@@ -31,13 +31,13 @@ DispatchResultEvent published
 Agent A receives result
 ```
 
-### Key Components
+## Key Components
 
 - **subagent_tool**: Factory that creates a dispatch tool with dynamic schema
 - **AgentWorker**: Subscribes to both InboundEvent and DispatchEvent
 - **DispatchEvent/DispatchResultEvent**: Event types for agent-to-agent communication
 
-## Key Changes
+
 
 [src/mybot/tools/subagent_tool.py](src/mybot/tools/subagent_tool.py) - NEW: Subagent dispatch tool
 

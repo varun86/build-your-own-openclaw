@@ -27,7 +27,7 @@ AgentWorker executes
 DispatchResultEvent
 ```
 
-### Key Components
+## Key Components
 
 - **CronLoader**: Loads CRON.md files with schedule definitions
 - **CronWorker**: Background worker that checks every minute for due jobs
@@ -35,7 +35,7 @@ DispatchResultEvent
 - **DispatchResultEvent**: Result event returned from dispatched jobs
 - **CronEventSource**: EventSource for cron-triggered events
 
-## Key Changes
+
 
 [src/mybot/core/cron_loader.py](src/mybot/core/cron_loader.py)
 

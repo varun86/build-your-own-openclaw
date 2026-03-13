@@ -27,13 +27,13 @@ OutboundEvent published to EventBus
 DeliveryWorker delivers to platform
 ```
 
-### Key Components
+## Key Components
 
 - **post_message_tool**: Factory that creates the tool when channels enabled
 - **Agent._build_tools()**: Conditionally registers tool based on source type
 - **DeliveryWorker**: Handles OutboundEvent delivery to platforms
 
-## Key Changes
+
 
 [src/mybot/tools/post_message_tool.py](src/mybot/tools/post_message_tool.py) - NEW: Agent-initiated messaging
 

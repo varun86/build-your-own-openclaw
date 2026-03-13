@@ -1,6 +1,6 @@
-# Step 01: Tools - Read, Write, Bash is Powerful Enough
+# Step 01: Give your agent a tool.
 
-Give the agent the ability to execute tools (read, write, edit, bash) and interact with the filesystem.
+> Simple tools are more powerful than you think. Read, Write, Bash is enough.
 
 ## Prerequisites
 
@@ -13,41 +13,29 @@ cp default_workspace/config.example.yaml default_workspace/config.user.yaml
 
 ## What We will Build?
 
-### Architecture
+<img src="01-tools.svg" align="center" width="100%" />
 
-```
-User Input → ChatLoop → AgentSession → Agent → LLM
-                              ↓              ↑
-                         ToolRegistry ← Tool Calls
-                              ↓
-                         Tool Execution
-```
-
-### Key Components
+## Key Components
 
 - **Stop Reason**: Chat Loop can stop because of "end_turn" or "tool_use"
-- **ToolRegistry**: Manages available tools and executes tool calls
-- **Builtin Tools**: read, write, edit, bash
+- **Tools**: Manages available tools and executes tool calls
 - **Tool Calling Loop**: Agent calls tools, adds results to history, continues conversation
 
-## Key Changes
 
-[src/tools/base.py](src/tools/base.py)
+
+[src/mybot/tools/base.py](src/mybot/tools/base.py)
 
 ```python
 class BaseTool(ABC):
-    """Abstract base class for all tools."""
-
     name: str
     description: str
     parameters: dict[str, Any]
 
     @abstractmethod
     async def execute(self, session: "AgentSession", **kwargs: Any) -> str:
-        """Execute the tool."""
+        pass
 
     def get_tool_schema(self) -> dict[str, Any]:
-        """Get the tool/function schema for LiteLLM."""
         return {
             "type": "function",
             "function": {
@@ -58,39 +46,39 @@ class BaseTool(ABC):
         }
 ```
 
-[src/core/agent.py](src/core/agent.py) - Tool calling loop
+[src/mybot/core/agent.py](src/mybot/core/agent.py)
+
+Integrating Tools into Chat Loop.
 
 ```python
-async def chat(self, message: str) -> str:
-    """Send a message with tool calling support."""
-    user_msg: Message = {"role": "user", "content": message}
-    self.state.add_message(user_msg)
+class AgentSession:
+    async def chat(self, message: str) -> str:
+        user_msg: Message = {"role": "user", "content": message}
+        self.state.add_message(user_msg)
 
-    tool_schemas = self.tools.get_tool_schemas()
+        tool_schemas = self.tools.get_tool_schemas()
 
-    while True:
-        messages = self.state.build_messages()
-        content, tool_calls = await self.agent.llm.chat(messages, tool_schemas)
+        while True:
+            messages = self.state.build_messages()
+            content, tool_calls = await self.agent.llm.chat(messages, tool_schemas)
 
-        # Add assistant message with tool calls
-        assistant_msg: Message = {
-            "role": "assistant",
-            "content": content,
-            "tool_calls": [...],
-        }
-        self.state.add_message(assistant_msg)
+            assistant_msg: Message = {
+                "role": "assistant",
+                "content": content,
+                "tool_calls": [...],
+            }
+            self.state.add_message(assistant_msg)
 
-        if not tool_calls:
-            break
+            if not tool_calls:
+                break
 
-        # Execute tools and add results to history
-        await self._handle_tool_calls(tool_calls)
+            await self._handle_tool_calls(tool_calls)
 
-    return content
+        return content
 ```
 
 
-## How to Run
+## Try it out
 
 ```bash
 cd 01-tools
@@ -107,4 +95,4 @@ uv run my-bot chat
 
 ## What's Next
 
-[Step 02: Skills](../02-skills/) - Add dynamic capability loading with SKILL.md files
+[Step 02: Skills](../02-skills/) - Add dynamic capability loading with SKILL.md files.

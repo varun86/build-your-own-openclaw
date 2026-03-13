@@ -31,13 +31,13 @@ Assembled System Prompt
 └── Layer 5: Channel (platform hint)
 ```
 
-### Key Components
+## Key Components
 
 - **AgentDef**: Now includes `soul_md` field for personality
 - **AgentLoader**: Loads optional SOUL.md alongside AGENT.md
 - **PromptBuilder**: Assembles all prompt layers into final system prompt
 
-## Key Changes
+
 
 [src/mybot/core/agent_loader.py](src/mybot/core/agent_loader.py) - Added soul_md field
 
