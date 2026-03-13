@@ -1,6 +1,6 @@
 # Step 08: Config Hot Reload
 
-> Reload configuration without restarting the agent.
+> Edit without restart.
 
 ## Prerequisites
 

@@ -1,4 +1,4 @@
-# Step 17: Memory - Long-Term Knowledge System
+# Step 17: Memory
 
 > Remember me!
 

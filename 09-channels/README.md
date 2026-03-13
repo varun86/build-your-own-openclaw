@@ -1,6 +1,6 @@
-# Step 09: Channels - Multi-Platform Support
+# Step 09: Channels
 
-> Take to your agent from on your phone.
+> Talk to your agent from on your phone.
 
 ## Prerequisites
 

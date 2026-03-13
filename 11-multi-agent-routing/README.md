@@ -15,42 +15,6 @@ cp default_workspace/config.example.yaml default_workspace/config.user.yaml
 
 <img src="11-multi-agent-routing.svg" align="center" width="100%" />
 
-```
-┌────────────────────────────────────────────────────────────────────┐
-│                            Server                                   │
-│                                                                    │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────┐             │
-│  │EventBus     │  │AgentWorker   │  │DeliveryWorker│             │
-│  │             │  │              │  │              │             │
-│  └─────────────┘  └──────────────┘  └──────────────┘             │
-│         ▲                  ▲                  │                    │
-│         │                  │                  │                    │
-│         │            ┌─────┴─────┐            │                    │
-│         │            │ Agent     │            │                    │
-│         │            │ Session   │            │                    │
-│         │            └───────────┘            │                    │
-│         │                                     │                    │
-│  ┌──────┴─────────────────────────────────────┴──────┐            │
-│  │              RoutingTable                         │            │
-│  │                                                   │            │
-│  │  Bindings:                                        │            │
-│  │  - "platform-telegram:.*" -> cookie-agent         │            │
-│  │  - "platform-cli:.*" -> pickle-agent              │            │
-│  │  - ".*" -> default-agent                          │            │
-│  └───────────────────────────────────────────────────┘            │
-│         ▲                                                         │
-│         │                                                         │
-│  ┌──────┴──────────────────────────────────────────────┐         │
-│  │              ChannelWorker                           │         │
-│  │                                                      │         │
-│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐             │         │
-│  │  │CLI      │  │Telegram │  │WebSocket│             │         │
-│  │  │Channel  │  │Channel  │  │Channel  │             │         │
-│  │  └─────────┘  └─────────┘  └─────────┘             │         │
-│  └─────────────────────────────────────────────────────┘         │
-└────────────────────────────────────────────────────────────────────┘
-```
-
 ## Key Components
 
 - **AgentLoader** - Agent Discoveries for multi agent definition support

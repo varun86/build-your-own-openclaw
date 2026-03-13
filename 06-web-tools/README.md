@@ -1,4 +1,4 @@
-# Step 06: Web Tools - Access the Internet
+# Step 06: Web Tools
 
 > Your Agent want to see the bigger world.
 > At the root, they are just two new tools.

@@ -16,36 +16,36 @@ A step-by-step tutorial to build your own AI agent, from a simple chat loop to a
 ### Phase 1: Capable Single Agent (Steps 1-7)
 Build a fully-functional agent that can chat, use tools, learn skills, remember conversations, and access the internet.
 
-- [**00-chat-loop**](./00-chat-loop/) - Your first agent
-- [**01-tools**](./01-tools/) - Agent can take actions
-- [**02-skills**](./02-skills/) - Dynamic capability loading
-- [**03-persistence**](./03-persistence/) - Remember conversations
-- [**04-slash-commands**](./04-slash-commands/) - User control
-- [**05-compaction**](./05-compaction/) - Handle long conversations
-- [**06-web-tools**](./06-web-tools/) - Search and read the web
+- [**00-chat-loop**](./00-chat-loop/) - Just a Chat Loop
+- [**01-tools**](./01-tools/) - Give your agent a tool.
+- [**02-skills**](./02-skills/) - Extend your agent with `SKILL.md`
+- [**03-persistence**](./03-persistence/) - Save your conversations.
+- [**04-slash-commands**](./04-slash-commands/) - Direct user control over sessions.
+- [**05-compaction**](./05-compaction/) - Pack you history and carry on...
+- [**06-web-tools**](./06-web-tools/) - Your Agent want to see the bigger world.
 
 ### Phase 2: Event-Driven Architecture (Steps 8-11)
 Refactor to event-driven architecture for scalability and multi-platform support.
 
-- [**07-event-driven**](./07-event-driven/) - The Great Refactor
-- [**08-config-hot-reload**](./08-config-hot-reload/) - Edit without restart
-- [**09-channels**](./09-channels/) - Multi-platform support
-- [**10-websocket**](./10-websocket/) - Real-time Websocket Connection
+- [**07-event-driven**](./07-event-driven/) - Expose you agent beyond CLI.
+- [**08-config-hot-reload**](./08-config-hot-reload/) - Edit without restart.
+- [**09-channels**](./09-channels/) - Talk to your agent from on your phone.
+- [**10-websocket**](./10-websocket/) - Want to interact with you agent programatically?
 
 ### Phase 3: Autonomous & Multi-Agent (Steps 12-16)
 Add scheduled tasks, agent collaboration, and intelligent routing.
 
-- [**11-multi-agent-routing**](./11-multi-agent-routing/) - Multiple agent & Right agent for right job
-- [**12-cron-heartbeat**](./12-cron-heartbeat/) - Autonomous scheduled tasks
-- [**13-multi-layer-prompts**](./13-multi-layer-prompts/) - Responsive system prompt
-- [**14-post-message-back**](./14-post-message-back/) - Agent-initiated communication
-- [**15-agent-dispatch**](./15-agent-dispatch/) - Agent collaboration
+- [**11-multi-agent-routing**](./11-multi-agent-routing/) - Route right job to right agent.
+- [**12-cron-heartbeat**](./12-cron-heartbeat/) - An Agent work while you are sleeping.
+- [**13-multi-layer-prompts**](./13-multi-layer-prompts/) - More Context, More Context, More Context.
+- [**14-post-message-back**](./14-post-message-back/) - Your Agent want to Speak to you.
+- [**15-agent-dispatch**](./15-agent-dispatch/) - Your Agent want friends to work with!
 
 ### Phase 4: Production & Scale (Steps 17-18)
 Production features for reliability and long-term memory.
 
-- [**16-concurrency-control**](./16-concurrency-control/) - Rate limiting and concurrency
-- [**17-memory**](./17-memory/) - Long-term knowledge system
+- [**16-concurrency-control**](./16-concurrency-control/) - Too many Pickle is running at the same time?
+- [**17-memory**](./17-memory/) - Remember me!
 
 ## How to Use This Tutorial
 
